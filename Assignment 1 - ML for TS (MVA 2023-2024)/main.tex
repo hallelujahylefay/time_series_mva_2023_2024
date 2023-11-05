@@ -296,7 +296,12 @@ Let $k \in \mathbb{N}$, we have
 \end{exercise}
 
 \begin{solution}
+    We observe that the sample autocovariance functions goes to $0$ as $\tau$ goes to $N$, which can be foreseen using Question 3.
+    Similarly for the standard deviation, which can be foreseen since as $\tau$ goes to $N$, we have little available samples.
+    Moreover, we observe that the autocovariance function goes to $0$ for $\tau > 0$ as $N$ goes to infinity, which is totally previsible because $\tau = \sigma^2\mathds{1}_{\{0\}}$.
 
+    Regarding the periodogram, the closed-formula given Question 3) for the power spectrum shows that $|J(f_k)|^2$ should be an estimator of the constant $\sigma^2=1$, which is the case. Moreover, the computed variance of $|J(f_k)|^2$ is the constant $\sigma^4=1$. This is confirmed by the plots.
+    More importantly, we remark the standard deviation does not go to $0$ as $N$ goes to infinity.
 \end{solution}
 
 \begin{exercise}
@@ -435,7 +440,8 @@ In the following question, this is proven for a Gaussian white noise but this ho
 \end{exercise}
 
 \begin{solution}
-
+    We observe that the standard deviation is know close to $0.4$, which can be predicted.
+    Indeed, since we split the signals in $5$ batchs, it means that the standard deviation of our mean batch estimator has a standard deviation of $1/\sqrt{5}\approx 0.44$.
 \begin{figure}
     \centering
     \begin{minipage}[t]{0.3\textwidth}
