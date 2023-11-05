@@ -47,11 +47,46 @@ where $y\in\RR^n$ is the response vector, $X\in\RR^{n\times p}$ the design matri
 Show that there exists $\lambda_{\max}$ such that the minimizer of~\eqref{eq:lasso} is $\mathbf{0}_p$ (a $p$-dimensional vector of zeros) for any $\lambda > \lambda_{\max}$.
 \end{exercise}
 
-\begin{solution}  % ANSWER HERE
-
+\begin{solution}
+Let $\mathcal{L} : \beta\in\mathbb{R}^p\mapsto \frac{1}{2}\norm{y-X\beta}^2_2+\lambda \norm{\beta}_1$, this is a non-differentiable (because of the $l_1$-norm term) convex function. Its subdifferential is given by
+%
 \begin{equation}
-    \lambda_{\max} = \dots
+    \partial \mathcal{L}(\beta) = -X^{\top}(y-X\beta)+\lambda\partial\norm{\beta}_1,
 \end{equation}
+%
+where the subdifferential of the $l_1$-norm is given by
+%
+\begin{equation}
+    \partial\norm{\beta}_1 = \{z\in \mathbb{R}^p : z_j = \text{sgn}(\beta) \text{ if } \beta_j\neq 0, z_j\in [-1, 1] \text{ if } x_j = 0\}.
+\end{equation}
+%
+The first-order optimality implies at the optimal $\beta(\lambda)$, there exists $z^{*}\in \partial \norm{\beta(\lambda)}_1$ such that
+%
+\begin{equation}
+    X^{\top}(y-X\beta(\lambda)) + \lambda z^{*} = 0,
+\end{equation}
+%
+i.e.,
+%
+\begin{equation}
+    X^{\top}X \beta(\lambda ) = X^{\top}y-\lambda z^{*}.
+\end{equation}
+%
+Thus, we have
+%
+\begin{equation}
+\begin{split}
+    0 \leq \beta(\lambda)X^{\top}X\beta(\lambda) &= \langle \beta(\lambda), X^{\top}y-\lambda z^{*}\rangle\\
+    &=\sum_{j/ \beta(\lambda)_j\neq 0}\beta(\lambda)_j (X^{\top}_j y - \lambda \text{sgn}(\beta(\lambda)_j),
+\end{split}
+\end{equation}
+%
+where the $X_j$'s are the columns of $X$ and the $\beta(\lambda)_j$'s are are the components of $\beta(\lambda)$.
+The previous inequality implies that for $\lambda \geq \max_{j\in [1, p]} |X^{\top}_jy|$, $\beta(\lambda)_j = 0$ (however, it does not seem trivial to show that it is a the minimal $\lambda$ such that $\beta(\lambda)$ is 0). Thus, for any $\lambda\geq \lambda_{max}$, where
+\begin{equation}
+    \lambda_{\max} =  \max_{j\in [1, p]} |X^{\top}_jy|,
+\end{equation}
+we have $\beta(\lambda)= 0$.
 
 \end{solution}
 
@@ -71,12 +106,37 @@ Show that
 \end{itemize}
 \end{exercise}
 
-\begin{solution}  % ANSWER HERE
-
+\begin{solution}
+We have $\sum_{k=1}^{K} (\mathbf{z}_k * \mathbf{d}_k)(i) = \sum_{k=1}^{K}\sum_{j=0}^{L-1}\mathbf{z}_k(j) \mathbf{d}_k(i-j)$ which can we rewritten $\sum_{k=1}^{K} \mathbf{z}_k* \mathbf{d}_k = Dz$ where
+%
 \begin{equation}
-    \lambda_{\max} = \dots
+    D = (D_1, \ldots, D_K),\quad z=[\mathbf{z}_1^{\top}, \ldots, \mathbf{z}_K^{\top}]^{\top},
 \end{equation}
+%
+and where the $D_i$'s are Toeplitz matrices for the convolution product by the $\mathbf{d}_i$'s, i.e.,
+%
+\begin{equation}
+    D_i = \begin{pmatrix}
+        d_i(0) & 0 & \ldots& 0 & 0\\
+        d_i(1) & d_i(0) & &\hdots & \hdots\\
+        d_i(2) & d_i(1) & \ldots & 0 & 0\\
+        \hdots & d_i(2) & \ldots & d_i(0) & 0\\
+        d_i(L-2) & \hdots &\ddots & d_i(1) & d_i(0)\\
+        d_i(L-1) & d_i(L-2) & & \vdots & d_i(1)\\
+        0 & d_i(L-1) &\ddots & d_i(L-3) & \vdots\\
+        0 & 0 & \ldots & d_i(L-2) & d_i(L-3)\\
+        \vdots & \vdots & & d_i(L-1) & d_i(L-2)\\
+        0 & 0& 0 &\ldots & d_i(L-1)
 
+    \end{pmatrix}.
+\end{equation}
+%
+In that case, using the result of the previous question, we have
+%
+\begin{equation}
+    \lambda_{max} = \max_{i\in[1, K]}{\norm{D_i^{\top}\mathbf{x}}_{\infty}}.
+\end{equation}
+%
 \end{solution}
 
 \section{Spectral feature}
@@ -204,28 +264,28 @@ Let $k \in \mathbb{N}$, we have
 \begin{figure}
     \centering
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/mean_sample_autocorrelation_N=200.png}}
     \centerline{Autocovariance ($N=200$)}
     \end{minipage}
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/mean_sample_autocorrelation_N=500.png}}
     \centerline{Autocovariance ($N=500$)}
     \end{minipage}
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/mean_sample_autocorrelation_N=1000.png}}
     \centerline{Autocovariance ($N=1000$)}
     \end{minipage}
     \vskip1em
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/mean_periodogram_N=200.png}}
     \centerline{Periodogram ($N=200$)}
     \end{minipage}
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/mean_periodogram_N=500.png}}
     \centerline{Periodogram ($N=500$)}
     \end{minipage}
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/mean_periodogram_N=1000.png}}
     \centerline{Periodogram ($N=1000$)}
     \end{minipage}
     \vskip1em
@@ -359,14 +419,14 @@ In the following question, this is proven for a Gaussian white noise but this ho
         \end{split}
     \end{equation}
     %
-    which is a constant. In particular, we've shown that the distribution of $|J(f_k)|^2$ does not depend on $N$, thus $ \mathbb{P}[||J(f_k)|^2-S(f)|>t]$ is a constant for any $t$ and $|J(f_k)|$ is not a consistent estimator of $S(f)$.
+    which is a constant. In particular, we've shown that the distribution of $|J(f_k)|^2$ does not depend on $N$, thus $ \mathbb{P}[||J(f_k)|^2-S(f)|>t]$ is a constant for any $t$ and $|J(f_k)|^2$ is not a consistent estimator of $S(f)$.
     %
 \end{solution}
 
 \begin{exercise}\label{q:barlett}
     As seen in the previous question, the problem with the periodogram is the fact that its variance does not decrease with the sample size.
     A simple procedure to obtain a consistent estimate is to divide the signal in $K$ sections of equal durations, compute a periodogram on each section and average them.
-    Provided the sections are independent, this has the effect of dividing the variance by $K$. 
+    Provided the sections are independent, this has the effect of dividing the variance by $K$.
     This procedure is known as Bartlett's procedure.
     \begin{itemize}
         \item Rerun the experiment of Question~\ref{ex:wn-exp}, but replace the periodogram by Barlett's estimate (set $K=5$). What do you observe.
@@ -375,19 +435,19 @@ In the following question, this is proven for a Gaussian white noise but this ho
 \end{exercise}
 
 \begin{solution}
-    
+
 \begin{figure}
     \centering
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/bartlett_periodogram_N=200.png}}
     \centerline{Periodogram ($N=200$)}
     \end{minipage}
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/bartlett_periodogram_N=500.png}}
     \centerline{Periodogram ($N=500$)}
     \end{minipage}
     \begin{minipage}[t]{0.3\textwidth}
-    \centerline{\includegraphics[width=\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/bartlett_periodogram_N=1000.png}}
     \centerline{Periodogram ($N=1000$)}
     \end{minipage}
     \vskip1em
@@ -420,7 +480,7 @@ Combine the DTW and a k-neighbors classifier to classify each step. Find the opt
 \end{exercise}
 
 \begin{solution}
-
+The reported optimal $k$ is $7$, however, this estimate is not consistent as the F-scores for the different $k$'s are very close while being sensitive to the random process of splitting the dataset into two parts. The associated F-score is $0.87$.
 \end{solution}
 
 \newpage
@@ -432,12 +492,12 @@ Display on Figure~\ref{fig:class-errors} a badly classified step from each class
 \begin{figure}
     \centering
     \begin{minipage}[t]{\textwidth}
-    \centerline{\includegraphics[width=0.6\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=0.6\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/false_positive.png}}
     \centerline{Badly classified healthy step}
     \end{minipage}
     \vskip1em
     \begin{minipage}[t]{\textwidth}
-    \centerline{\includegraphics[width=0.6\textwidth]{example-image-golden}}
+    \centerline{\includegraphics[width=0.6\textwidth]{Assignment 1 - ML for TS (MVA 2023-2024)/false_negative.png}}
     \centerline{Badly classified non-healthy step}
     \end{minipage}
     \vskip1em
